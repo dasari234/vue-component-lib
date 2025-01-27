@@ -17,7 +17,7 @@ https://docs.github.com/en/packages/quickstart
    </ul>
     
 ### styles
-    import "../node_modules/@vigo-mvm/vigo-vue-component-lib/dist/style.css"; in to main.ts
+    import "../node_modules/@dasari234/vue-component-lib/dist/style.css"; in to main.ts
 ### 1. Title Component
    **Props** <br/>
      <ul>

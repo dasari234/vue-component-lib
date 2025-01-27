@@ -1,0 +1,40 @@
+{
+  "name": "@dasari234/vue-component-lib",
+  "version": "0.0.5",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "main": "./dist/vue-component-lib.umd.js",
+  "module": "./dist/vue-component-lib.es.js",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/vue-component-lib.es.js"
+    },
+    "./dist/style.css": "./dist/style.css"
+  },
+  "publishConfig": {
+    "@dasari234:registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dasari234/vue-component-lib"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.4.37"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "@vitejs/plugin-vue": "^5.1.2",
+    "sass-embedded": "^1.78.0",
+    "typescript": "^5.5.3",
+    "vite": "^5.4.1",
+    "vue-tsc": "^2.0.29"
+  }
+}
