@@ -3,7 +3,8 @@
 </script>
 
 <template>
-<div style="margin: 4rem;"></div>
+<div style="margin: 4rem;">
+</div>
 
 </template>
 

@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ComponentObjectPropsOptions, ref } from "vue";
 
-defineProps({
+interface Props {
+    text: string;
+    color: string;
+    copied: string;
+}
+
+defineProps<ComponentObjectPropsOptions<Props>>({
     text: { type: String, default: "Sample Text" },
     color: { type: String, default: "#909399" },
     copied: { type: String, default: "green" },
@@ -12,27 +18,35 @@ const isCopied = ref<boolean>(false),
 
 
 
-const handleCopyClick = (content: any) => {
-    navigator.clipboard.writeText(content);
-    isCopied.value = true;
-    hoverContent.value = "Copied!"
-    setTimeout(() => {
-        isCopied.value = false;
-        hoverContent.value = "Copy"
-    }, 2500);
+const handleCopyClipboard = (content: string) => {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(content).then(() => {
+            isCopied.value = true;
+            hoverContent.value = "Copied!";
+            setTimeout(() => {
+                isCopied.value = false;
+                hoverContent.value = "Copy";
+            }, 2500);
+        }).catch((error) => {
+            console.error("Failed to copy text:", error);
+        });
+    } else {
+        console.warn("Clipboard API is not supported.");
+    }
 };
 
 </script>
 
 <template>
-    <div class="vigo-copy-text">
+    <div class="copy-text">
         <span>
             {{ text }}
         </span>
 
         <span class="copy-icon">
             <div class="tooltip" v-if="text !== ''">
-                <button class="button" v-if="!isCopied" @click="handleCopyClick(text)">
+                <button class="button" v-if="!isCopied" @click="handleCopyClipboard(text)"
+                    aria-label="Copy to clipboard">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
                         <path :fill="color"
                             d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z">
@@ -42,7 +56,7 @@ const handleCopyClick = (content: any) => {
                         </path>
                     </svg>
                 </button>
-                <button class="button" v-if="isCopied">
+                <button class="button" v-if="isCopied" aria-label="Text copied">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
                         <path :fill="copied"
                             d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896m-55.808 536.384-99.52-99.584a38.4 38.4 0 1 0-54.336 54.336l126.72 126.72a38.272 38.272 0 0 0 54.336 0l262.4-262.464a38.4 38.4 0 1 0-54.272-54.336z">
@@ -56,7 +70,7 @@ const handleCopyClick = (content: any) => {
 </template>
 
 <style scoped lang="scss">
-.vigo-copy-text {
+.copy-text {
     cursor: pointer;
     display: flex;
     flex-direction: row;
